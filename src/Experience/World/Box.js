@@ -9,8 +9,7 @@ export default class Box {
         this.resources = this.experience.resources
         this.physics = this.experience.physics
         this.debug = this.experience.debug
-
-        this.objectsToUpdate = []
+        this.objectsToUpdate = this.experience.objectsToUpdate
 
         // debug
         if(this.debug.active){
@@ -74,10 +73,5 @@ export default class Box {
     }
     
     update(){
-    // this.experience.physics.step(1/60, this.experience.time.delta, 3)
-    for(const object of this.objectsToUpdate){
-        object.mesh.position.copy(object.body.position)
-        object.mesh.quaternion.copy(object.body.quaternion)
-    }
     }
 }

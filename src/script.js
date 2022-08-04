@@ -241,9 +241,9 @@ const experience = new Experience(document.querySelector('canvas.webgl'))
 // // sphere
 // const sphereGeometry =  new THREE.SphereBufferGeometry(1, 20, 20)
 // const sphereMaterial = new THREE.MeshStandardMaterial({
-    // metalness: 0.3,
-    // roughness: 0.4, 
-    // envMap: environmentMapTexture
+//     metalness: 0.3,
+//     roughness: 0.4, 
+//     envMap: environmentMapTexture
 // })
 
 // const createSphere = (radius, position) => {

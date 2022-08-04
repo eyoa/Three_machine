@@ -8,6 +8,8 @@ import World from './World/World'
 import Resources from './Utils/Resources'
 import Debug from './Utils/Debug'
 import sources from './sources'
+import Cursor from './Utils/Cursor'
+import Raycaster from './Utils/Raycaster'
 
 let instance = null
 
@@ -31,7 +33,7 @@ export default class Experience {
         this.physics.allowSleep = true
         this.physics.gravity.set(0, -9.82, 0)
         
-        // physics material
+        // physics default material
         const defaultMaterial = new CANNON.Material('default')
 
         const defaultContactMaterial = new CANNON.ContactMaterial(
@@ -45,6 +47,7 @@ export default class Experience {
         this.physics.addContactMaterial(defaultContactMaterial)
         this.physics.defaultContactMaterial = defaultContactMaterial
 
+        
         // Setup
         this.debug = new Debug()
         this.sizes = new Sizes()
@@ -54,9 +57,10 @@ export default class Experience {
         this.camera = new Camera()
         this.renderer = new Renderer()
         this.world = new World()
-        this.objectsToUpdate = {}
-
-        
+        this.cursor = new Cursor()
+        this.objectsToUpdate = []
+        this.objectsToInteract = []
+        this.raycaster = new Raycaster()
 
         // Sizes resize Event
         this.sizes.on('resize', () => {
@@ -78,6 +82,13 @@ export default class Experience {
     update() {
         this.camera.update()
         this.world.update()
+        this.raycaster.update()
+        // console.log(this.objectsToInteract)
+        // update physics
+        for(const object of this.objectsToUpdate){
+            object.mesh.position.copy(object.body.position)
+            object.mesh.quaternion.copy(object.body.quaternion)
+        }
         this.renderer.update()
     }
 }

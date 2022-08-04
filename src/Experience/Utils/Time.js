@@ -1,4 +1,3 @@
- import { degToRad } from "three/src/math/MathUtils";
 import EventEmitter from "./EventEmitter";
 
  export default class Time extends EventEmitter{
