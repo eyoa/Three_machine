@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import * as CANNON from 'cannon-es'
+import CannonDebugger from 'cannon-es-debugger'
 import Sizes from "./Utils/Sizes"
 import Time from "./Utils/Time"
 import Camera from './Camera'
@@ -34,14 +35,14 @@ export default class Experience {
         this.physics.gravity.set(0, -9.82, 0)
         
         // physics default material
-        const defaultMaterial = new CANNON.Material('default')
+        this.defaultMaterial = new CANNON.Material('default')
 
         const defaultContactMaterial = new CANNON.ContactMaterial(
-            defaultMaterial,
-            defaultMaterial,
+            this.defaultMaterial,
+            this.defaultMaterial,
             {
                 friction: 0.1,
-                restitution: 0.7
+                restitution: 0.3
             }
         )
         this.physics.addContactMaterial(defaultContactMaterial)
@@ -49,6 +50,8 @@ export default class Experience {
 
         
         // Setup
+        this.objectsToUpdate = []
+        this.objectsToInteract = []
         this.debug = new Debug()
         this.sizes = new Sizes()
         this.time = new Time()
@@ -58,9 +61,10 @@ export default class Experience {
         this.renderer = new Renderer()
         this.world = new World()
         this.cursor = new Cursor()
-        this.objectsToUpdate = []
-        this.objectsToInteract = []
         this.raycaster = new Raycaster()
+
+        this.cannonDebugger = new CannonDebugger(this.scene, this.physics, {})
+
 
         // Sizes resize Event
         this.sizes.on('resize', () => {
@@ -83,7 +87,8 @@ export default class Experience {
         this.camera.update()
         this.world.update()
         this.raycaster.update()
-        // console.log(this.objectsToInteract)
+        // this.cannonDebugger.update()
+        // console.log(this.objectsToUpdate)
         // update physics
         for(const object of this.objectsToUpdate){
             object.mesh.position.copy(object.body.position)

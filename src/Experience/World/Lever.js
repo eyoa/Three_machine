@@ -10,27 +10,30 @@ export default class Lever {
         this.physics = this.experience.physics
         this.cursor = this.experience.cursor
         this.raycaster = this.experience.raycaster
+
+        this.objectsToUpdate = this.experience.objectsToUpdate
     
     }
 
-    init(){
-        const width = 2
-        const height = 0.3
-        const length = 5
-        const position = {x: 1, y:1.5, z: 1}
-
+    init(width, height, length, position, yRot){
+        let pivotPosition = {...position}
+        pivotPosition.y = pivotPosition.y - 0.2
         // lever board
         const boxGeometry =  new THREE.BoxBufferGeometry(1, 1, 1)
         const boxMaterial = new THREE.MeshStandardMaterial({
             metalness: 0.3,
             roughness: 0.4, 
+            color: '#f7ee83',
             envMap: this.resources.items.environmentMapTexture
         })
         this.leverObj = new THREE.Mesh(boxGeometry, boxMaterial)
         this.leverObj.scale.set(width, height, length)
         this.leverObj.castShadow = true
+        this.leverObj.rotation.reorder('YXZ')
+        if(yRot){
+            this.leverObj.rotation.y = Math.PI * 0.5
+        }
         this.leverObj.position.copy(position)
-        // this.leverObj.rotation.x = Math.PI * 0.13
         this.scene.add(this.leverObj)
         
         // pivot obj
@@ -38,12 +41,10 @@ export default class Lever {
             new THREE.CylinderBufferGeometry(0.1, 0.1, 20, 1),
             boxMaterial
         )
-        this.pivotObj.position.copy({x: 1, y:1.3, z: 1})
+        this.pivotObj.position.copy(pivotPosition)
+        this.pivotObj.rotation.x = Math.PI * 0.5
         this.pivotObj.castShadow = true
         this.scene.add(this.pivotObj)
-
-
-        // this.objectsToInteract.push(this.leverObj)
 
         // physics
         // lever
@@ -64,18 +65,24 @@ export default class Lever {
             position: new CANNON.Vec3(0, 0, 0),
             shape: this.pivotShape
         })
-        this.pivotBody.position.copy({x: 1, y:1.3, z: 1})
+        this.pivotBody.position.copy(this.pivotObj.position)
         this.pivotBody.quaternion.copy(this.pivotObj.quaternion)
         this.physics.addBody(this.pivotBody)
         
-        this.hinge = new CANNON.HingeConstraint(this.leverBody, this.pivotBody, new CANNON.Vec3({x: 1, y: 0, z: 0}))        
+        this.hinge = new CANNON.HingeConstraint(this.pivotBody, this.leverBody, {axisA: new CANNON.Vec3({x: 0, y: 1, z: 0})})        
         this.physics.addConstraint(this.hinge)
-
+        
+        this.objectsToUpdate.push({
+            mesh: this.leverObj,
+            body: this.leverBody
+        })
     }
 
     update(){
-        this.leverObj.position.copy(this.leverBody.position)
-        this.leverObj.quaternion.copy(this.leverBody.quaternion)
+        // if(this.leverObj){
+        //     this.leverObj.position.copy(this.leverBody.position)
+        //     this.leverObj.quaternion.copy(this.leverBody.quaternion)
+        // }
     }
 
 }

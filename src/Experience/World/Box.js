@@ -51,14 +51,14 @@ export default class Box {
         this.scene.add(this.mesh)
     }
 
-    createBox(width, height, depth, position){
+    createBox(width, height, depth, position, mass){
         this.setGeometry()
         this.setMaterial()
         this.setMesh(width, height, depth, position)
 
         this.boxShape = new CANNON.Box(new CANNON.Vec3(width * 0.5, height * 0.5, depth * 0.5))
         this.boxBody = new CANNON.Body({
-            mass: 1,
+            mass,
             position: new CANNON.Vec3(0,3,0),
             shape: this.boxShape
         })

@@ -45,13 +45,14 @@ export default class Button {
         // events
         this.cursor.on('click', () => {
             if (this.experience.raycaster.currentIntersect.object === this.buttonObj){
-                this.experience.world.sphere.createSphere(
-                    Math.random() * 0.5, 
-                    {
-                        x: (Math.random() - 0.5) * 3,
-                        y: 3,
-                        z: (Math.random() - 0.5) * 3,
-                    })
+                this.experience.world.sphere.createSphere(0.3, {x: 0 , y:20, z: -2})        
+                // this.experience.world.sphere.createSphere(
+                //     Math.random() * 0.5, 
+                //     {
+                //         x: (Math.random() - 0.5) * 3,
+                //         y: 3,
+                //         z: (Math.random() - 0.5) * 3,
+                //     })
             }
         })
 

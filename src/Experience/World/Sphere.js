@@ -17,15 +17,29 @@ export default class Sphere {
             this.debugFolder = this.debug.gui.addFolder('Sphere')
             const debugObject = {}
             debugObject.createSphere = () => {
+                    // this.createSphere(
+                    //     Math.random() * 0.5, 
+                    //     {
+                    //         x: (Math.random() - 0.5) * 3,
+                    //         y: 5,
+                    //         z: (Math.random() - 0.5) * 3,
+                    //     })
                     this.createSphere(
-                        Math.random() * 0.5, 
+                        0.3, 
                         {
-                            x: (Math.random() - 0.5) * 3,
-                            y: 3,
-                            z: (Math.random() - 0.5) * 3,
+                            x: -2,
+                            y: 6,
+                            z: 1,
                         })
                 }
+            
+            debugObject.showAxis = () => {
+                const axisHelper = new THREE.AxesHelper(5)
+                this.scene.add(axisHelper)
+            }
+            
             this.debugFolder.add(debugObject, 'createSphere')
+            this.debugFolder.add(debugObject, 'showAxis')
         }
 
     }
@@ -36,8 +50,9 @@ export default class Sphere {
 
     setMaterial(){
         this.material = new THREE.MeshStandardMaterial({
-            metalness: 0.3,
-            roughness: 0.4, 
+            metalness: 0.8,
+            roughness: 0.4,
+            color: '#ffffff',
             envMap: this.resources.items.environmentMapTexture
         })
     }
