@@ -7,6 +7,7 @@ import Button from "./Button";
 import Ramp from "./Ramp";
 import Lever from "./Lever";
 import depositLever from "./depositLever";
+import City from "./City";
 
 
 export default class World {
@@ -24,6 +25,7 @@ export default class World {
             this.button = new Button()
             this.ramp = new Ramp()
             this.lever = new Lever()
+            this.city = new City()
             this.depositLever = new depositLever()
             this.environment = new Environment()
             this.init()

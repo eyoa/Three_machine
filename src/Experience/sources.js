@@ -10,5 +10,10 @@ export default [
             '/textures/environmentMaps/0/pz.png',
             '/textures/environmentMaps/0/nz.png'
         ]
+    },
+    {
+        name: 'TokyoModel',
+        type: 'gltfModel',
+        path: 'models/neotokyo.gltf'
     }
 ]
